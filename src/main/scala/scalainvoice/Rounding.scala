@@ -13,10 +13,10 @@ object Rounding {
   def defaultPrecision = roundWithPrecision(NumericPrecision) _
   def printingPrecision = roundWithPrecision(PrintingPrecision) _
 
-  def round( x : Int ) = x.toDouble
   def round( x : Double ) : Double = defaultPrecision(x)
+  val rounder = round _
+  val mirror = (x:Double) => x
 
-  def roundPrint(x : Int) : String = roundPrint(x.toDouble)
   def roundPrint(x : Double) : String = "%.2f".format(printingPrecision(x))
 
 }

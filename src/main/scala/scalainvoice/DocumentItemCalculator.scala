@@ -3,27 +3,17 @@ package scalainvoice
 
 object DocumentItemCalculator {
 
-  def Rounder = Rounding
+  val round = Rounding.rounder
 
-  def calculateItemTotals(item : DocumentItem) : DocumentItem = item.copy(
-      total = calculateItemTotal(item),
-      totalBeforeTaxes = calculateItemTotalBeforeTaxes(item),
-      totalTaxes = calculateItemTax(item)
+  def calculateItemTotals(item : DocumentItem) : DocumentItem = {
+    val beforeTaxes = round(item.unitPrice * item.quantity)
+    val taxes = round(beforeTaxes * item.taxFactor)
+
+    item.copy(
+      total = round(beforeTaxes + taxes),
+      totalBeforeTaxes = beforeTaxes,
+      totalTaxes = taxes
     )
-
-  def calculateItemTotal(item : DocumentItem) : Double = {
-    Rounder.round(
-        calculateItemTotalBeforeTaxes(item) + calculateItemTax(item)
-      )
-  }
-
-  def calculateItemTax(item : DocumentItem) : Double = {
-    val raw = calculateItemTotalBeforeTaxes(item)
-    Rounder.round(raw * item.taxFactor)
-  }
-
-  def calculateItemTotalBeforeTaxes(item : DocumentItem) : Double = {
-    Rounder.round(item.unitPrice * item.quantity)
   }
 
 }

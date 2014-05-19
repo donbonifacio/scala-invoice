@@ -22,12 +22,12 @@ class DocumentItemCalculatorSpec extends UnitSpec {
 
     it("handles zero values") {
       val item = DocumentItem(unitPrice = 1, quantity = 10, taxFactor = 0.0)
-      calculateItemTax(item) should equal(0.0)
+      calculateItemTotals(item).totalTaxes should equal(0.0)
     }
 
     it("handles basic percentage") {
       val item = DocumentItem(unitPrice = 1, quantity = 10, taxFactor = 0.20)
-      calculateItemTax(item) should equal(2.0)
+      calculateItemTotals(item).totalTaxes should equal(2.0)
     }
 
   }
@@ -36,22 +36,22 @@ class DocumentItemCalculatorSpec extends UnitSpec {
 
     it("properly hanldes zero values") {
       val item = DocumentItem(unitPrice = 1, quantity = 0)
-      calculateItemTotalBeforeTaxes(item) should equal(0.0)
+      calculateItemTotals(item).totalBeforeTaxes should equal(0.0)
     }
 
     it("properly handles integer values") {
       val item = DocumentItem(unitPrice = 15, quantity = 2)
-      calculateItemTotalBeforeTaxes(item) should equal(30.0)
+      calculateItemTotals(item).totalBeforeTaxes should equal(30.0)
     }
 
     it("properly handles decimal values") {
       val item = DocumentItem(unitPrice = 1.5, quantity = 2.5)
-      calculateItemTotalBeforeTaxes(item) should equal(3.75)
+      calculateItemTotals(item).totalBeforeTaxes should equal(3.75)
     }
 
     it("properly rounds values") {
       val item = DocumentItem(unitPrice = 1.111111, quantity = 2.111111)
-      calculateItemTotalBeforeTaxes(item) should equal(2.3457)
+      calculateItemTotals(item).totalBeforeTaxes should equal(2.3457)
     }
 
   }
